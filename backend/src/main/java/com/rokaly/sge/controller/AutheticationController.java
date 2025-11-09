@@ -1,6 +1,9 @@
 package com.rokaly.sge.controller;
 
+import com.rokaly.sge.dto.DataJwtTokenDTO;
 import com.rokaly.sge.dto.LoginDTO;
+import com.rokaly.sge.model.User;
+import com.rokaly.sge.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,11 +20,15 @@ public class AutheticationController {
     @Autowired
     private AuthenticationManager manager;
 
-    @PostMapping
-    public ResponseEntity login(@RequestBody LoginDTO data) {
-        var token = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var authentication = manager.authenticate(token);
+    @Autowired
+    private TokenService tokenService;
 
-        return ResponseEntity.ok().build();
+    @PostMapping
+    public ResponseEntity<DataJwtTokenDTO> login(@RequestBody LoginDTO data) {
+        var authToken = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+        var authentication = manager.authenticate(authToken);
+        var jwtToken = tokenService.getToken((User) authentication.getPrincipal());
+
+        return ResponseEntity.ok(new DataJwtTokenDTO(jwtToken));
     }
 }
