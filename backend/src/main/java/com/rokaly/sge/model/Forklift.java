@@ -5,7 +5,7 @@ import com.rokaly.sge.dto.PutForkliftDTO;
 import jakarta.persistence.*;
 
 import java.util.List;
-
+// REMOVER
 @Entity
 @Table(name = "forklifts")
 public class Forklift {

@@ -2,7 +2,7 @@ package com.rokaly.sge.model;
 
 import com.rokaly.sge.dto.HistoryDTO;
 import jakarta.persistence.*;
-
+// REMOVER
 @Entity
 @Table(name = "history")
 public class History {
