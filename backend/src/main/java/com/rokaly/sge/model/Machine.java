@@ -1,5 +1,7 @@
 package com.rokaly.sge.model;
 
+import com.rokaly.sge.dto.MachineDTO;
+import com.rokaly.sge.dto.PutMachineDTO;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -22,4 +24,94 @@ public class Machine {
     private List<Maintenance> maintenance;
 
 
+    public Machine(MachineDTO data) {
+        this.serial = data.serial();
+        this.type = data.type();
+        this.brand = data.brand();
+        this.model = data.model();
+        this.hourMeter = data.hourMeter();
+        this.status = data.status();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Double getHourMeter() {
+        return hourMeter;
+    }
+
+    public void setHourMeter(Double hourMeter) {
+        this.hourMeter = hourMeter;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public List<Maintenance> getMaintenance() {
+        return maintenance;
+    }
+
+    public void setMaintenance(List<Maintenance> maintenance) {
+        this.maintenance = maintenance;
+    }
+
+    public void updateData(PutMachineDTO data) {
+        if (data.type() != null) {
+            this.type = data.type();
+        }
+    }
+
+    public void deleteForklift() {
+        this.status = Status.INATIVA;
+    }
+
+    public void maintenance() {
+        this.status = Status.MANUTENCAO;
+    }
+
+    public void activate() {
+        this.status = Status.ATIVA;
+    }
 }
