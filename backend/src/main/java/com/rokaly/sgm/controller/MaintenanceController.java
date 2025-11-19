@@ -1,5 +1,6 @@
 package com.rokaly.sgm.controller;
 
+import com.rokaly.sgm.dto.ActiveMachineDTO;
 import com.rokaly.sgm.dto.GetMachineDTO;
 import com.rokaly.sgm.dto.GetMaintenanceDTO;
 import com.rokaly.sgm.dto.MaintenanceDTO;
@@ -47,7 +48,7 @@ public class MaintenanceController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<GetMachineDTO> leftMaintenance(@RequestBody GetMachineDTO data) {
+    public ResponseEntity<GetMachineDTO> leftMaintenance(@RequestBody ActiveMachineDTO data) {
         Machine machine = repositoryMachine.getReferenceById(data.id());
         machine.activate();
         return ResponseEntity.ok(new GetMachineDTO(machine));

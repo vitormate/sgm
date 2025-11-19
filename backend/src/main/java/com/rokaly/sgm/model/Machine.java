@@ -104,6 +104,18 @@ public class Machine {
         if (data.type() != null) {
             this.type = data.type();
         }
+
+        if (data.brand() != null) {
+            this.brand = data.brand();
+        }
+
+        if (data.model() != null) {
+            this.model = data.model();
+        }
+
+        if (data.hourMeter() != null) {
+            this.hourMeter = data.hourMeter();
+        }
     }
 
     public void deleteForklift() {
