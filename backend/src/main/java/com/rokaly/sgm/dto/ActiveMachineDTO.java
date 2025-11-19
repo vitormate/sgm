@@ -1,4 +1,6 @@
 package com.rokaly.sgm.dto;
 
-public record ActiveMachineDTO(Long id) {
+import jakarta.validation.constraints.NotNull;
+
+public record ActiveMachineDTO(@NotNull Long id) {
 }

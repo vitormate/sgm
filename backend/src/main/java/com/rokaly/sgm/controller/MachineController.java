@@ -6,6 +6,7 @@ import com.rokaly.sgm.dto.PutMachineDTO;
 import com.rokaly.sgm.model.Machine;
 import com.rokaly.sgm.repository.MachineRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,7 @@ public class MachineController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<MachineDTO> create(@RequestBody MachineDTO data, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<MachineDTO> create(@RequestBody @Valid MachineDTO data, UriComponentsBuilder uriBuilder) {
         Machine machine = new Machine(data);
         repository.save(machine);
 
@@ -40,7 +41,7 @@ public class MachineController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<GetMachineDTO> put(@RequestBody PutMachineDTO data) {
+    public ResponseEntity<GetMachineDTO> put(@RequestBody @Valid PutMachineDTO data) {
         Machine machine = repository.getReferenceById(data.id());
         machine.updateData(data);
         return ResponseEntity.ok(new GetMachineDTO(machine));
