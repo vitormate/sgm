@@ -1,4 +1,10 @@
 package com.rokaly.sgm.dto;
 
-public record LoginDTO(String login, String password) {
+import jakarta.validation.constraints.NotBlank;
+
+public record LoginDTO(
+        @NotBlank
+        String login,
+        @NotBlank
+        String password) {
 }

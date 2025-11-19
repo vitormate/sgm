@@ -9,6 +9,7 @@ import com.rokaly.sgm.model.Maintenance;
 import com.rokaly.sgm.repository.MachineRepository;
 import com.rokaly.sgm.repository.MaintenanceRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +30,7 @@ public class MaintenanceController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<MaintenanceDTO> create(@RequestBody MaintenanceDTO data, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<MaintenanceDTO> create(@RequestBody @Valid MaintenanceDTO data, UriComponentsBuilder uriBuilder) {
         Machine machine = repositoryMachine.getReferenceById(data.idMachine());
         machine.maintenance();
         Maintenance maintenance = new Maintenance(data, machine);
@@ -48,7 +49,7 @@ public class MaintenanceController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<GetMachineDTO> leftMaintenance(@RequestBody ActiveMachineDTO data) {
+    public ResponseEntity<GetMachineDTO> leftMaintenance(@RequestBody @Valid ActiveMachineDTO data) {
         Machine machine = repositoryMachine.getReferenceById(data.id());
         machine.activate();
         return ResponseEntity.ok(new GetMachineDTO(machine));

@@ -1,4 +1,12 @@
 package com.rokaly.sgm.dto;
 
-public record PutMachineDTO(Long id, String type, String brand, String model, Double hourMeter) {
+import jakarta.validation.constraints.NotNull;
+
+public record PutMachineDTO(
+        @NotNull
+        Long id,
+        String type,
+        String brand,
+        String model,
+        Double hourMeter) {
 }
