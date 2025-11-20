@@ -8,6 +8,7 @@ import com.rokaly.sgm.model.Machine;
 import com.rokaly.sgm.model.Maintenance;
 import com.rokaly.sgm.repository.MachineRepository;
 import com.rokaly.sgm.repository.MaintenanceRepository;
+import com.rokaly.sgm.service.MaintenanceService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,35 +24,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class MaintenanceController {
 
     @Autowired
-    private MaintenanceRepository repositoryMaintenance;
-
-    @Autowired
-    private MachineRepository repositoryMachine;
+    private MaintenanceService maintenanceService;
 
     @PostMapping
     @Transactional
     public ResponseEntity<MaintenanceDTO> create(@RequestBody @Valid MaintenanceDTO data, UriComponentsBuilder uriBuilder) {
-        Machine machine = repositoryMachine.getReferenceById(data.idMachine());
-        machine.maintenance();
-        Maintenance maintenance = new Maintenance(data, machine);
-        repositoryMaintenance.save(maintenance);
-
-        var uri = uriBuilder.path("/maintenance/{id}").buildAndExpand(maintenance.getId()).toUri();
-        MaintenanceDTO dto = new MaintenanceDTO(data);
-        return ResponseEntity.created(uri).body(dto);
+        return maintenanceService.createService(data, uriBuilder);
     }
 
     @GetMapping
     public ResponseEntity<Page<GetMaintenanceDTO>> read(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
-        Page<GetMaintenanceDTO> page = repositoryMaintenance.findAll(pagination).map(GetMaintenanceDTO::new);
-        return ResponseEntity.ok(page);
+        return maintenanceService.readService(pagination);
     }
 
     @PutMapping
     @Transactional
     public ResponseEntity<GetMachineDTO> leftMaintenance(@RequestBody @Valid ActiveMachineDTO data) {
-        Machine machine = repositoryMachine.getReferenceById(data.id());
-        machine.activate();
-        return ResponseEntity.ok(new GetMachineDTO(machine));
+        return maintenanceService.removeMaintenance(data);
     }
 }

@@ -5,6 +5,7 @@ import com.rokaly.sgm.dto.MachineDTO;
 import com.rokaly.sgm.dto.PutMachineDTO;
 import com.rokaly.sgm.model.Machine;
 import com.rokaly.sgm.repository.MachineRepository;
+import com.rokaly.sgm.service.MachineService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,36 +23,29 @@ public class MachineController {
     @Autowired
     private MachineRepository repository;
 
+    @Autowired
+    private MachineService machineService;
+
     @PostMapping
     @Transactional
     public ResponseEntity<MachineDTO> create(@RequestBody @Valid MachineDTO data, UriComponentsBuilder uriBuilder) {
-        Machine machine = new Machine(data);
-        repository.save(machine);
-
-        var uri = uriBuilder.path("/machines/{id}").buildAndExpand(machine.getId()).toUri();
-        MachineDTO dto = new MachineDTO(data);
-        return ResponseEntity.created(uri).body(dto);
+        return machineService.createService(data, uriBuilder);
     }
 
     @GetMapping
     public ResponseEntity<Page<GetMachineDTO>> read(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
-        Page<GetMachineDTO> page = repository.findAll(pagination).map(GetMachineDTO::new);
-        return ResponseEntity.ok(page);
+        return machineService.readService(pagination);
     }
 
     @PutMapping
     @Transactional
     public ResponseEntity<GetMachineDTO> put(@RequestBody @Valid PutMachineDTO data) {
-        Machine machine = repository.getReferenceById(data.id());
-        machine.updateData(data);
-        return ResponseEntity.ok(new GetMachineDTO(machine));
+        return machineService.putService(data);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        Machine machine = repository.getReferenceById(id);
-        machine.deleteForklift();
-        return ResponseEntity.noContent().build();
+        return machineService.deleteService(id);
     }
 }
