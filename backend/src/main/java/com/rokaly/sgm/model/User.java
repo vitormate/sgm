@@ -16,8 +16,17 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String login;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private RoleUser role;
 
+    public User(String login, String encryptedPassword, RoleUser role) {
+        this.login = login;
+        this.password = encryptedPassword;
+        this.role = role;
+    }
 
+    public User() {
+    }
 
     public Long getId() {
         return id;
@@ -36,13 +45,31 @@ public class User implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
     public String getPassword() {
         return password;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public RoleUser getRole() {
+        return role;
+    }
+
+    public void setRole(RoleUser role) {
+        this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(this.role == RoleUser.ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+    }
+
 
     @Override
     public String getUsername() {
@@ -69,8 +96,5 @@ public class User implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
 
