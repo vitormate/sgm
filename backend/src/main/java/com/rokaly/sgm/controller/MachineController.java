@@ -6,6 +6,7 @@ import com.rokaly.sgm.dto.PutMachineDTO;
 import com.rokaly.sgm.model.Machine;
 import com.rokaly.sgm.repository.MachineRepository;
 import com.rokaly.sgm.service.MachineService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("machines")
+@SecurityRequirement(name = "bearer-key")
 public class MachineController {
 
     @Autowired
