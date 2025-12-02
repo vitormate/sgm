@@ -9,6 +9,7 @@ import com.rokaly.sgm.model.Maintenance;
 import com.rokaly.sgm.repository.MachineRepository;
 import com.rokaly.sgm.repository.MaintenanceRepository;
 import com.rokaly.sgm.service.MaintenanceService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("maintenance")
+@SecurityRequirement(name = "bearer-key")
 public class MaintenanceController {
 
     @Autowired

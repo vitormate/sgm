@@ -6,6 +6,7 @@ import com.rokaly.sgm.dto.RegisterDTO;
 import com.rokaly.sgm.model.User;
 import com.rokaly.sgm.repository.UserRepository;
 import com.rokaly.sgm.security.TokenService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("auth")
 public class AutheticationController {
 
@@ -39,6 +41,7 @@ public class AutheticationController {
         return ResponseEntity.ok(new DataJwtTokenDTO(jwtToken));
     }
 
+    @SecurityRequirement(name = "bearer-key")
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterDTO data) {
         if (userRepository.findByLogin(data.login()) != null) {
