@@ -5,12 +5,15 @@ import com.rokaly.sgm.dto.MachineDTO;
 import com.rokaly.sgm.dto.PutMachineDTO;
 import com.rokaly.sgm.model.Machine;
 import com.rokaly.sgm.repository.MachineRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Optional;
 
 @Service
 public class MachineService {
@@ -42,5 +45,12 @@ public class MachineService {
         Machine machine = machineRepository.getReferenceById(id);
         machine.deleteForklift();
         return ResponseEntity.noContent().build();
+    }
+
+    public ResponseEntity<GetMachineDTO> getByIdService(Long id) {
+        Machine machine = machineRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + id));
+
+        return ResponseEntity.ok(new GetMachineDTO(machine));
     }
 }

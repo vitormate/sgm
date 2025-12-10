@@ -50,4 +50,9 @@ public class MachineController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         return machineService.deleteService(id);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GetMachineDTO> getById(@PathVariable Long id) {
+        return machineService.getByIdService(id);
+    }
 }

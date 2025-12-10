@@ -44,4 +44,9 @@ public class MaintenanceController {
     public ResponseEntity<GetMachineDTO> leftMaintenance(@RequestBody @Valid ActiveMachineDTO data) {
         return maintenanceService.removeMaintenance(data);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GetMaintenanceDTO> getById(@PathVariable Long id) {
+        return maintenanceService.getByIdService(id);
+    }
 }
