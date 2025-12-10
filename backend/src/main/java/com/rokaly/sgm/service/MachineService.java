@@ -36,7 +36,9 @@ public class MachineService {
     }
 
     public ResponseEntity<GetMachineDTO> putService(PutMachineDTO data) {
-        Machine machine = machineRepository.getReferenceById(data.id());
+        Machine machine = machineRepository.findById(data.id())
+                .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + data.id()));
+
         machine.updateData(data);
         return ResponseEntity.ok(new GetMachineDTO(machine));
     }
