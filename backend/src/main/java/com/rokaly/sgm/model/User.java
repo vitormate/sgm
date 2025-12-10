@@ -1,5 +1,6 @@
 package com.rokaly.sgm.model;
 
+import com.rokaly.sgm.utils.enums.RoleUser;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

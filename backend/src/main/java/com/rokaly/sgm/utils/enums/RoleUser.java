@@ -1,4 +1,4 @@
-package com.rokaly.sgm.model;
+package com.rokaly.sgm.utils.enums;
 
 public enum RoleUser {
 

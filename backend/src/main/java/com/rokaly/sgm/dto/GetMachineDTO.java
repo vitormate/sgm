@@ -1,7 +1,7 @@
 package com.rokaly.sgm.dto;
 
 import com.rokaly.sgm.model.Machine;
-import com.rokaly.sgm.model.Status;
+import com.rokaly.sgm.utils.enums.Status;
 
 public record GetMachineDTO(Long id, String serial, String type, String brand, String model, Double hourMeter, Status status) {
     public GetMachineDTO(Machine data) {

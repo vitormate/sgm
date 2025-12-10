@@ -1,6 +1,6 @@
 package com.rokaly.sgm.dto;
 
-import com.rokaly.sgm.model.RoleUser;
+import com.rokaly.sgm.utils.enums.RoleUser;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
