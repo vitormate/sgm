@@ -36,7 +36,7 @@ public class MaintenanceController {
 
     @GetMapping
     public ResponseEntity<Page<GetMaintenanceDTO>> read(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
-        return maintenanceService.readService(pagination);
+        return maintenanceService.getAllService(pagination);
     }
 
     @PutMapping

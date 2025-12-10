@@ -30,7 +30,7 @@ public class MachineService {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    public ResponseEntity<Page<GetMachineDTO>> readService(Pageable pagination) {
+    public ResponseEntity<Page<GetMachineDTO>> getAllService(Pageable pagination) {
         Page<GetMachineDTO> page = machineRepository.findAll(pagination).map(GetMachineDTO::new);
         return ResponseEntity.ok(page);
     }

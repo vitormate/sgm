@@ -36,7 +36,7 @@ public class MaintenanceService {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    public ResponseEntity<Page<GetMaintenanceDTO>> readService(Pageable pagination) {
+    public ResponseEntity<Page<GetMaintenanceDTO>> getAllService(Pageable pagination) {
         Page<GetMaintenanceDTO> page = repositoryMaintenance.findAll(pagination).map(GetMaintenanceDTO::new);
         return ResponseEntity.ok(page);
     }

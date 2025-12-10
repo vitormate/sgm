@@ -36,7 +36,7 @@ public class MachineController {
 
     @GetMapping
     public ResponseEntity<Page<GetMachineDTO>> read(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
-        return machineService.readService(pagination);
+        return machineService.getAllService(pagination);
     }
 
     @PutMapping
