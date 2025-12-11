@@ -36,12 +36,17 @@ public class MaintenanceController {
 
     @GetMapping
     public ResponseEntity<Page<GetMaintenanceDTO>> read(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
-        return maintenanceService.readService(pagination);
+        return maintenanceService.getAllService(pagination);
     }
 
     @PutMapping
     @Transactional
     public ResponseEntity<GetMachineDTO> leftMaintenance(@RequestBody @Valid ActiveMachineDTO data) {
         return maintenanceService.removeMaintenance(data);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GetMaintenanceDTO> getById(@PathVariable Long id) {
+        return maintenanceService.getByIdService(id);
     }
 }

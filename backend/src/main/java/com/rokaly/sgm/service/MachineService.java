@@ -5,12 +5,15 @@ import com.rokaly.sgm.dto.MachineDTO;
 import com.rokaly.sgm.dto.PutMachineDTO;
 import com.rokaly.sgm.model.Machine;
 import com.rokaly.sgm.repository.MachineRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Optional;
 
 @Service
 public class MachineService {
@@ -27,13 +30,15 @@ public class MachineService {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    public ResponseEntity<Page<GetMachineDTO>> readService(Pageable pagination) {
+    public ResponseEntity<Page<GetMachineDTO>> getAllService(Pageable pagination) {
         Page<GetMachineDTO> page = machineRepository.findAll(pagination).map(GetMachineDTO::new);
         return ResponseEntity.ok(page);
     }
 
     public ResponseEntity<GetMachineDTO> putService(PutMachineDTO data) {
-        Machine machine = machineRepository.getReferenceById(data.id());
+        Machine machine = machineRepository.findById(data.id())
+                .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + data.id()));
+
         machine.updateData(data);
         return ResponseEntity.ok(new GetMachineDTO(machine));
     }
@@ -42,5 +47,12 @@ public class MachineService {
         Machine machine = machineRepository.getReferenceById(id);
         machine.deleteForklift();
         return ResponseEntity.noContent().build();
+    }
+
+    public ResponseEntity<GetMachineDTO> getByIdService(Long id) {
+        Machine machine = machineRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + id));
+
+        return ResponseEntity.ok(new GetMachineDTO(machine));
     }
 }

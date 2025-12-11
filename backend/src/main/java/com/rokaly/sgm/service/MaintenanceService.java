@@ -8,6 +8,7 @@ import com.rokaly.sgm.model.Machine;
 import com.rokaly.sgm.model.Maintenance;
 import com.rokaly.sgm.repository.MachineRepository;
 import com.rokaly.sgm.repository.MaintenanceRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +36,7 @@ public class MaintenanceService {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    public ResponseEntity<Page<GetMaintenanceDTO>> readService(Pageable pagination) {
+    public ResponseEntity<Page<GetMaintenanceDTO>> getAllService(Pageable pagination) {
         Page<GetMaintenanceDTO> page = repositoryMaintenance.findAll(pagination).map(GetMaintenanceDTO::new);
         return ResponseEntity.ok(page);
     }
@@ -44,5 +45,12 @@ public class MaintenanceService {
         Machine machine = repositoryMachine.getReferenceById(data.id());
         machine.activate();
         return ResponseEntity.ok(new GetMachineDTO(machine));
+    }
+
+    public ResponseEntity<GetMaintenanceDTO> getByIdService(Long id) {
+        Maintenance maintenance = repositoryMaintenance.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Manutenção não encontrada com id: " + id));
+
+        return ResponseEntity.ok(new GetMaintenanceDTO(maintenance));
     }
 }

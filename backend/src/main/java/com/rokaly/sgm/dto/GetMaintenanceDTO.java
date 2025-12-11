@@ -1,7 +1,6 @@
 package com.rokaly.sgm.dto;
 
 import com.rokaly.sgm.model.Maintenance;
-import com.rokaly.sgm.model.Status;
 
 import java.time.LocalDateTime;
 
