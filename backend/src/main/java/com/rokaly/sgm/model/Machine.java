@@ -31,7 +31,7 @@ public class Machine {
         this.brand = data.brand();
         this.model = data.model();
         this.hourMeter = data.hourMeter();
-        this.status = data.status();
+        this.status = Status.ATIVA;
     }
 
     public Machine() {
