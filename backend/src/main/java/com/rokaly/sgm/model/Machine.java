@@ -2,6 +2,7 @@ package com.rokaly.sgm.model;
 
 import com.rokaly.sgm.dto.MachineDTO;
 import com.rokaly.sgm.dto.PutMachineDTO;
+import com.rokaly.sgm.exception.BusinessRuleException;
 import com.rokaly.sgm.utils.enums.Status;
 import jakarta.persistence.*;
 
@@ -101,33 +102,33 @@ public class Machine {
         this.maintenance = maintenance;
     }
 
-    public void updateData(PutMachineDTO data) {
-        if (data.type() != null) {
-            this.type = data.type();
-        }
-
-        if (data.brand() != null) {
-            this.brand = data.brand();
-        }
-
-        if (data.model() != null) {
-            this.model = data.model();
-        }
-
-        if (data.hourMeter() != null) {
-            this.hourMeter = data.hourMeter();
-        }
-    }
-
     public void deleteForklift() {
         this.status = Status.INATIVA;
     }
 
-    public void maintenance() {
+    public void maintenance(Double hourMeter) {
+        validHourMeter(hourMeter);
         this.status = Status.MANUTENCAO;
     }
 
     public void activate() {
         this.status = Status.ATIVA;
+    }
+
+    public void updateData(String type, String brand, String model, Double hourMeter) {
+        if (type != null) this.type = type;
+        if (brand != null) this.brand = brand;
+        if (model != null) this.model = model;
+        if (hourMeter != null) {
+            validHourMeter(hourMeter);
+        }
+    }
+
+    private void validHourMeter(Double hourMeter) {
+        if (hourMeter < this.hourMeter) {
+            throw new BusinessRuleException("O horímetro não pode ser menor que o valor anterior!");
+        }
+
+        this.hourMeter = hourMeter;
     }
 }

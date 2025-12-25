@@ -27,7 +27,7 @@ public class MaintenanceService {
 
     public ResponseEntity<MaintenanceDTO> createService(MaintenanceDTO data, UriComponentsBuilder uriBuilder) {
         Machine machine = repositoryMachine.getReferenceById(data.idMachine());
-        machine.maintenance();
+        machine.maintenance(data.hourMeter());
         Maintenance maintenance = new Maintenance(data, machine);
         repositoryMaintenance.save(maintenance);
 

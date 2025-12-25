@@ -1,5 +1,6 @@
 package com.rokaly.sgm.exception;
 
+import com.rokaly.sgm.dto.CustomErrorsDTO;
 import com.rokaly.sgm.dto.ErrorsDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,11 @@ public class ErrorsHandling {
     public ResponseEntity<List<ErrorsDTO>> error400(MethodArgumentNotValidException ex) {
         var erros = ex.getFieldErrors();
         return ResponseEntity.badRequest().body(erros.stream().map(ErrorsDTO::new).toList());
+    }
+
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<CustomErrorsDTO> businessRuleError(BusinessRuleException ex) {
+        return ResponseEntity.unprocessableEntity().body(new CustomErrorsDTO(ex.getMessage()));
     }
 
 }

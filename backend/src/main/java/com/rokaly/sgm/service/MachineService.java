@@ -39,7 +39,7 @@ public class MachineService {
         Machine machine = machineRepository.findById(data.id())
                 .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + data.id()));
 
-        machine.updateData(data);
+        machine.updateData(data.type(), data.brand(), data.model(), data.hourMeter());
         return ResponseEntity.ok(new GetMachineDTO(machine));
     }
 
