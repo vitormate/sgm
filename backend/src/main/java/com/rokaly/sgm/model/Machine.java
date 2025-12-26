@@ -145,7 +145,7 @@ public class Machine {
 
     private void validStatus(Status status) {
         if (status == Status.MANUTENCAO) {
-            throw new BusinessRuleException("A máquina precisa estar ATIVA para ser mandada para MANUTENÇÃO!");
+            throw new BusinessRuleException("A máquina já está em MANUTENÇÃO!");
         }
     }
 }
