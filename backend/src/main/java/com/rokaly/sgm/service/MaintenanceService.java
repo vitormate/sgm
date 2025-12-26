@@ -42,7 +42,7 @@ public class MaintenanceService {
         return ResponseEntity.ok(page);
     }
 
-    public ResponseEntity<GetMachineDTO> removeMaintenance(ActiveMachineDTO data) {
+    public ResponseEntity<GetMachineDTO> finishMaintenance(ActiveMachineDTO data) {
         Machine machine = repositoryMachine.getReferenceById(data.id());
         machine.activate();
         return ResponseEntity.ok(new GetMachineDTO(machine));

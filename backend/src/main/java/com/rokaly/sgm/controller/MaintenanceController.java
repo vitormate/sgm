@@ -42,7 +42,7 @@ public class MaintenanceController {
     @PutMapping
     @Transactional
     public ResponseEntity<GetMachineDTO> leftMaintenance(@RequestBody @Valid ActiveMachineDTO data) {
-        return maintenanceService.removeMaintenance(data);
+        return maintenanceService.finishMaintenance(data);
     }
 
     @GetMapping("/{id}")

@@ -114,9 +114,8 @@ public class Machine {
         this.status = Status.MANUTENCAO;
     }
 
-
-
     public void activate() {
+        validNotInActive();
         this.status = Status.ATIVA;
     }
 
@@ -146,6 +145,12 @@ public class Machine {
     private void validNotInMaintenance() {
         if (this.status == Status.MANUTENCAO) {
             throw new BusinessRuleException("A máquina já está em MANUTENÇÃO!");
+        }
+    }
+
+    private void validNotInActive() {
+        if (this.status == Status.ATIVA) {
+            throw new BusinessRuleException("A máquina já está ATIVA!");
         }
     }
 }
