@@ -22,7 +22,7 @@ public class MachineService {
     private MachineRepository machineRepository;
 
     public ResponseEntity<MachineDTO> createService(MachineDTO data, UriComponentsBuilder uriBuilder) {
-        Machine machine = new Machine(data);
+        Machine machine = new Machine(data.serial(), data.type(), data.brand(), data.model(), data.hourMeter());
         machineRepository.save(machine);
 
         var uri = uriBuilder.path("/machines/{id}").buildAndExpand(machine.getId()).toUri();
@@ -45,7 +45,7 @@ public class MachineService {
 
     public ResponseEntity<Void> deleteService(Long id) {
         Machine machine = machineRepository.getReferenceById(id);
-        machine.deleteForklift();
+        machine.inactivate();
         return ResponseEntity.noContent().build();
     }
 

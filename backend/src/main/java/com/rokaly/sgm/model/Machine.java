@@ -23,16 +23,16 @@ public class Machine {
     private Double hourMeter;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Maintenance> maintenance;
 
 
-    public Machine(MachineDTO data) {
-        this.serial = data.serial();
-        this.type = data.type();
-        this.brand = data.brand();
-        this.model = data.model();
-        this.hourMeter = data.hourMeter();
+    public Machine(String serial, String type, String brand, String model, Double hourMeter) {
+        this.serial = serial;
+        this.type = type;
+        this.brand = brand;
+        this.model = model;
+        this.hourMeter = hourMeter;
         this.status = Status.ATIVA;
     }
 
@@ -103,12 +103,12 @@ public class Machine {
         this.maintenance = maintenance;
     }
 
-    public void deleteForklift() {
+    public void inactivate() {
         this.status = Status.INATIVA;
     }
 
-    public void maintenance(Double hourMeter, LocalDateTime dateTime) {
-        validStatus(this.status);
+    public void startMaintenance(Double hourMeter, LocalDateTime dateTime) {
+        validNotInMaintenance();
         validHourMeter(hourMeter);
         validDateTime(dateTime);
         this.status = Status.MANUTENCAO;
@@ -143,8 +143,8 @@ public class Machine {
         }
     }
 
-    private void validStatus(Status status) {
-        if (status == Status.MANUTENCAO) {
+    private void validNotInMaintenance() {
+        if (this.status == Status.MANUTENCAO) {
             throw new BusinessRuleException("A máquina já está em MANUTENÇÃO!");
         }
     }
