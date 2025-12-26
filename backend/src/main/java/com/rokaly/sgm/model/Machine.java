@@ -6,6 +6,7 @@ import com.rokaly.sgm.exception.BusinessRuleException;
 import com.rokaly.sgm.utils.enums.Status;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -106,10 +107,14 @@ public class Machine {
         this.status = Status.INATIVA;
     }
 
-    public void maintenance(Double hourMeter) {
+    public void maintenance(Double hourMeter, LocalDateTime dateTime) {
+        validStatus(this.status);
         validHourMeter(hourMeter);
+        validDateTime(dateTime);
         this.status = Status.MANUTENCAO;
     }
+
+
 
     public void activate() {
         this.status = Status.ATIVA;
@@ -130,5 +135,17 @@ public class Machine {
         }
 
         this.hourMeter = hourMeter;
+    }
+
+    private void validDateTime(LocalDateTime dateTime) {
+        if (dateTime.isAfter(LocalDateTime.now())) {
+            throw new BusinessRuleException("O horário não pode ser futuro!");
+        }
+    }
+
+    private void validStatus(Status status) {
+        if (status == Status.MANUTENCAO) {
+            throw new BusinessRuleException("A máquina precisa estar ATIVA para ser mandada para MANUTENÇÃO!");
+        }
     }
 }
