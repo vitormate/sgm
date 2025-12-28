@@ -27,8 +27,9 @@ public class MaintenanceService {
 
     public ResponseEntity<MaintenanceDTO> createService(MaintenanceDTO data, UriComponentsBuilder uriBuilder) {
         Machine machine = repositoryMachine.getReferenceById(data.idMachine());
-        machine.maintenance();
-        Maintenance maintenance = new Maintenance(data, machine);
+        machine.startMaintenance(data.hourMeter(), data.dateTime());
+        Maintenance maintenance = new Maintenance(data.dateTime(), data.description(), data.hourMeter(), machine);
+
         repositoryMaintenance.save(maintenance);
 
         var uri = uriBuilder.path("/maintenance/{id}").buildAndExpand(maintenance.getId()).toUri();
@@ -41,7 +42,7 @@ public class MaintenanceService {
         return ResponseEntity.ok(page);
     }
 
-    public ResponseEntity<GetMachineDTO> removeMaintenance(ActiveMachineDTO data) {
+    public ResponseEntity<GetMachineDTO> finishMaintenance(ActiveMachineDTO data) {
         Machine machine = repositoryMachine.getReferenceById(data.id());
         machine.activate();
         return ResponseEntity.ok(new GetMachineDTO(machine));

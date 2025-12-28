@@ -22,7 +22,7 @@ public class MachineService {
     private MachineRepository machineRepository;
 
     public ResponseEntity<MachineDTO> createService(MachineDTO data, UriComponentsBuilder uriBuilder) {
-        Machine machine = new Machine(data);
+        Machine machine = new Machine(data.serial(), data.type(), data.brand(), data.model(), data.hourMeter());
         machineRepository.save(machine);
 
         var uri = uriBuilder.path("/machines/{id}").buildAndExpand(machine.getId()).toUri();
@@ -39,13 +39,13 @@ public class MachineService {
         Machine machine = machineRepository.findById(data.id())
                 .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + data.id()));
 
-        machine.updateData(data);
+        machine.updateData(data.type(), data.brand(), data.model(), data.hourMeter());
         return ResponseEntity.ok(new GetMachineDTO(machine));
     }
 
     public ResponseEntity<Void> deleteService(Long id) {
         Machine machine = machineRepository.getReferenceById(id);
-        machine.deleteForklift();
+        machine.inactivate();
         return ResponseEntity.noContent().build();
     }
 

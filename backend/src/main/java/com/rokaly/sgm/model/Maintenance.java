@@ -18,10 +18,10 @@ public class Maintenance {
     @ManyToOne
     private Machine machine;
 
-    public Maintenance(MaintenanceDTO data, Machine machine) {
-        this.dateTime = data.dateTime();
-        this.description = data.description();
-        this.hourMeter = data.hourMeter();
+    public Maintenance(LocalDateTime dateTime, String description, Double hourMeter, Machine machine) {
+        this.dateTime = dateTime;
+        this.description = description;
+        this.hourMeter = hourMeter;
         this.machine = machine;
     }
 
