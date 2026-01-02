@@ -35,8 +35,13 @@ public class MachineController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<GetMachineDTO>> read(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
+    public ResponseEntity<Page<GetMachineDTO>> getAllMachines(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
         return machineService.getAllService(pagination);
+    }
+
+    @GetMapping("/actives")
+    public ResponseEntity<Page<GetMachineDTO>> getAllActiveMachines(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
+        return machineService.getAllActives(pagination);
     }
 
     @PutMapping
