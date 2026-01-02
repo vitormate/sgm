@@ -5,6 +5,7 @@ import com.rokaly.sgm.dto.MachineDTO;
 import com.rokaly.sgm.dto.PutMachineDTO;
 import com.rokaly.sgm.model.Machine;
 import com.rokaly.sgm.repository.MachineRepository;
+import com.rokaly.sgm.utils.enums.Status;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,5 +55,15 @@ public class MachineService {
                 .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + id));
 
         return ResponseEntity.ok(new GetMachineDTO(machine));
+    }
+
+    public ResponseEntity<Page<GetMachineDTO>> getAllActives(Pageable pagination) {
+        Page<GetMachineDTO> page = machineRepository.findByStatus(pagination, Status.ATIVA).map(GetMachineDTO::new);
+        return ResponseEntity.ok(page);
+    }
+
+    public ResponseEntity<Page<GetMachineDTO>> getAllMaintenance(Pageable pagination) {
+        Page<GetMachineDTO> page = machineRepository.findByStatus(pagination, Status.MANUTENCAO).map(GetMachineDTO::new);
+        return ResponseEntity.ok(page);
     }
 }
