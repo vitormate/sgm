@@ -44,6 +44,11 @@ public class MachineController {
         return machineService.getAllActives(pagination);
     }
 
+    @GetMapping("/maintenace")
+    public ResponseEntity<Page<GetMachineDTO>> getAllMaintenanceMachines(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
+        return machineService.getAllMaintenance(pagination);
+    }
+
     @PutMapping
     @Transactional
     public ResponseEntity<GetMachineDTO> put(@RequestBody @Valid PutMachineDTO data) {

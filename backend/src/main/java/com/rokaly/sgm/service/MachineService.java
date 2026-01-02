@@ -61,4 +61,9 @@ public class MachineService {
         Page<GetMachineDTO> page = machineRepository.findByStatus(pagination, Status.ATIVA).map(GetMachineDTO::new);
         return ResponseEntity.ok(page);
     }
+
+    public ResponseEntity<Page<GetMachineDTO>> getAllMaintenance(Pageable pagination) {
+        Page<GetMachineDTO> page = machineRepository.findByStatus(pagination, Status.MANUTENCAO).map(GetMachineDTO::new);
+        return ResponseEntity.ok(page);
+    }
 }
