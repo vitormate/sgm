@@ -25,8 +25,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 @SecurityRequirement(name = "bearer-key")
 public class MaintenanceController {
 
-    @Autowired
-    private MaintenanceService maintenanceService;
+    private final MaintenanceService maintenanceService;
+
+    public MaintenanceController(MaintenanceService maintenanceService) {
+        this.maintenanceService = maintenanceService;
+    }
 
     @PostMapping
     @Transactional

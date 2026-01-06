@@ -22,11 +22,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 @SecurityRequirement(name = "bearer-key")
 public class MachineController {
 
-    @Autowired
-    private MachineRepository repository;
+    private final MachineService machineService;
 
-    @Autowired
-    private MachineService machineService;
+    public MachineController(MachineService machineService) {
+        this.machineService = machineService;
+    }
 
     @PostMapping
     @Transactional

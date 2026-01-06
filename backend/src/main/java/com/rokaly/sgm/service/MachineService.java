@@ -19,8 +19,11 @@ import java.util.Optional;
 @Service
 public class MachineService {
 
-    @Autowired
-    private MachineRepository machineRepository;
+    private final MachineRepository machineRepository;
+
+    public MachineService(MachineRepository machineRepository) {
+        this.machineRepository = machineRepository;
+    }
 
     public ResponseEntity<MachineDTO> createService(MachineDTO data, UriComponentsBuilder uriBuilder) {
         Machine machine = new Machine(data.serial(), data.type(), data.brand(), data.model(), data.hourMeter());

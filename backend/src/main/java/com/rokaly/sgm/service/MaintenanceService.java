@@ -19,11 +19,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class MaintenanceService {
 
-    @Autowired
-    private MaintenanceRepository repositoryMaintenance;
+    private final MaintenanceRepository repositoryMaintenance;
+    private final MachineRepository repositoryMachine;
 
-    @Autowired
-    private MachineRepository repositoryMachine;
+    public MaintenanceService(MaintenanceRepository maintenanceRepository, MachineRepository repositoryMachine) {
+        this.repositoryMaintenance = maintenanceRepository;
+        this.repositoryMachine = repositoryMachine;
+    }
 
     public ResponseEntity<MaintenanceDTO> createService(MaintenanceDTO data, UriComponentsBuilder uriBuilder) {
         Machine machine = repositoryMachine.getReferenceById(data.idMachine());

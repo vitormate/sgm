@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 public class AutheticationController {
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
+
+    public AutheticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<DataJwtTokenDTO> login(@RequestBody @Valid LoginDTO data) {

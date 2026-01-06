@@ -19,14 +19,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService {
 
-    @Autowired
-    private AuthenticationManager manager;
+    private final AuthenticationManager manager;
+    private final TokenService tokenService;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private UserRepository userRepository;
+    public AuthenticationService(AuthenticationManager manager, TokenService tokenService, UserRepository userRepository) {
+        this.manager = manager;
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+    }
 
     public ResponseEntity<DataJwtTokenDTO> loginService(LoginDTO data) {
         var authToken = new UsernamePasswordAuthenticationToken(data.login(), data.password());
