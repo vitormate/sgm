@@ -1,6 +1,5 @@
 package com.rokaly.sgm.model;
 
-import com.rokaly.sgm.dto.MaintenanceDTO;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

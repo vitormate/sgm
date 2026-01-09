@@ -1,7 +1,5 @@
 package com.rokaly.sgm.model;
 
-import com.rokaly.sgm.dto.MachineDTO;
-import com.rokaly.sgm.dto.PutMachineDTO;
 import com.rokaly.sgm.exception.BusinessRuleException;
 import com.rokaly.sgm.utils.enums.Status;
 import jakarta.persistence.*;
