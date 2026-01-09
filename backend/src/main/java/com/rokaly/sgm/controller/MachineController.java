@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("machines")
+@RequestMapping("/api/v1/machines")
 @SecurityRequirement(name = "bearer-key")
 public class MachineController {
 

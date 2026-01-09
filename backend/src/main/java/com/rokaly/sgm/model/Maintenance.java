@@ -1,6 +1,8 @@
 package com.rokaly.sgm.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -10,10 +12,18 @@ public class Maintenance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
     private LocalDateTime dateTime;
+
+    @NotBlank
     @Column(length = 500)
     private String description;
+
+    @NotNull
     private Double hourMeter;
+
+    @NotNull
     @ManyToOne
     private Machine machine;
 
