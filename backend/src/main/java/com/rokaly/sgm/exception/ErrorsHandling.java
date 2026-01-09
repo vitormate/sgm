@@ -1,7 +1,7 @@
 package com.rokaly.sgm.exception;
 
-import com.rokaly.sgm.dto.CustomErrorsDTO;
-import com.rokaly.sgm.dto.ErrorsDTO;
+import com.rokaly.sgm.dto.CustomErrorsResponse;
+import com.rokaly.sgm.dto.ErrorsResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,14 +19,14 @@ public class ErrorsHandling {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<ErrorsDTO>> error400(MethodArgumentNotValidException ex) {
+    public ResponseEntity<List<ErrorsResponse>> error400(MethodArgumentNotValidException ex) {
         var erros = ex.getFieldErrors();
-        return ResponseEntity.badRequest().body(erros.stream().map(ErrorsDTO::new).toList());
+        return ResponseEntity.badRequest().body(erros.stream().map(ErrorsResponse::new).toList());
     }
 
     @ExceptionHandler(BusinessRuleException.class)
-    public ResponseEntity<CustomErrorsDTO> businessRuleError(BusinessRuleException ex) {
-        return ResponseEntity.unprocessableEntity().body(new CustomErrorsDTO(ex.getMessage()));
+    public ResponseEntity<CustomErrorsResponse> businessRuleError(BusinessRuleException ex) {
+        return ResponseEntity.unprocessableEntity().body(new CustomErrorsResponse(ex.getMessage()));
     }
 
 }

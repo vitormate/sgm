@@ -1,10 +1,9 @@
 package com.rokaly.sgm.dto;
 
-import com.rokaly.sgm.utils.enums.Status;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record MachineDTO(
+public record MachineRequest(
         @NotBlank
         String serial,
         @NotBlank
@@ -15,7 +14,7 @@ public record MachineDTO(
         String model,
         @NotNull
         Double hourMeter) {
-    public MachineDTO(MachineDTO data) {
+    public MachineRequest(MachineRequest data) {
         this(data.serial(), data.type(), data.brand(), data.model(), data.hourMeter());
     }
 }
