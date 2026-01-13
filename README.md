@@ -50,6 +50,7 @@ Para as regras de negócio utilizei o conceito de enriquecimento de entidades do
 - JWT (Auth0)
 - Spring Validation
 - Swagger / OpenAPI
+- FlyWay
 ### Banco de Dados
 - PostgreSQL
 
