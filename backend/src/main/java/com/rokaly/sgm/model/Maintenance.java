@@ -14,17 +14,20 @@ public class Maintenance {
     private Long id;
 
     @NotNull
+    @Column(nullable = false)
     private LocalDateTime dateTime;
 
     @NotBlank
-    @Column(length = 500)
+    @Column(length = 500, nullable = false)
     private String description;
 
     @NotNull
+    @Column(nullable = false)
     private Double hourMeter;
 
     @NotNull
     @ManyToOne
+    @JoinColumn(name = "machine_id", nullable = false)
     private Machine machine;
 
     public Maintenance(LocalDateTime dateTime, String description, Double hourMeter, Machine machine) {

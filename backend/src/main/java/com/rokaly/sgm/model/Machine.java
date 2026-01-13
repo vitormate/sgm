@@ -18,22 +18,27 @@ public class Machine {
     private Long id;
 
     @NotBlank
-    @Column(unique = true)
+    @Column(unique = true, length = 50, nullable = false)
     private String serial;
 
     @NotBlank
+    @Column(length = 100, nullable = false)
     private String type;
 
     @NotBlank
+    @Column(length = 50, nullable = false)
     private String brand;
 
     @NotBlank
+    @Column(length = 50, nullable = false)
     private String model;
 
     @NotNull
+    @Column(nullable = false)
     private Double hourMeter;
 
     @NotNull
+    @Column(length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
