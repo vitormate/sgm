@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/api/v1/maintenance")
+@RequestMapping("/api/v2/maintenance")
 @SecurityRequirement(name = "bearer-key")
 public class MaintenanceController {
 

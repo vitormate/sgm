@@ -4,6 +4,7 @@ import com.rokaly.sgm.dto.GetMachineResponse;
 import com.rokaly.sgm.dto.MachineRequest;
 import com.rokaly.sgm.dto.PutMachineRequest;
 import com.rokaly.sgm.service.MachineService;
+import com.rokaly.sgm.utils.enums.Status;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/api/v1/machines")
+@RequestMapping("/api/v2/machines")
 @SecurityRequirement(name = "bearer-key")
 public class MachineController {
 
@@ -32,18 +33,8 @@ public class MachineController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<GetMachineResponse>> getAllMachines(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
-        return machineService.getAllService(pagination);
-    }
-
-    @GetMapping("/actives")
-    public ResponseEntity<Page<GetMachineResponse>> getAllActiveMachines(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
-        return machineService.getAllActives(pagination);
-    }
-
-    @GetMapping("/maintenace")
-    public ResponseEntity<Page<GetMachineResponse>> getAllMaintenanceMachines(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination) {
-        return machineService.getAllMaintenance(pagination);
+    public ResponseEntity<Page<GetMachineResponse>> getAllMachines(@PageableDefault(size = 10, page = 0, sort = {"id"}) Pageable pagination, @RequestParam(required = false) Status status) {
+        return machineService.getAllService(pagination, status);
     }
 
     @PutMapping

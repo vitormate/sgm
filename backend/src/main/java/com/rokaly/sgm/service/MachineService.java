@@ -31,8 +31,13 @@ public class MachineService {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    public ResponseEntity<Page<GetMachineResponse>> getAllService(Pageable pagination) {
-        Page<GetMachineResponse> page = machineRepository.findAll(pagination).map(GetMachineResponse::new);
+    public ResponseEntity<Page<GetMachineResponse>> getAllService(Pageable pagination, Status status) {
+        if (status == null) {
+            Page<GetMachineResponse> page = machineRepository.findAll(pagination).map(GetMachineResponse::new);
+            return ResponseEntity.ok(page);
+        }
+
+        Page<GetMachineResponse> page = machineRepository.findByStatus(pagination, status).map(GetMachineResponse::new);
         return ResponseEntity.ok(page);
     }
 
@@ -55,15 +60,5 @@ public class MachineService {
                 .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + id));
 
         return ResponseEntity.ok(new GetMachineResponse(machine));
-    }
-
-    public ResponseEntity<Page<GetMachineResponse>> getAllActives(Pageable pagination) {
-        Page<GetMachineResponse> page = machineRepository.findByStatus(pagination, Status.ATIVA).map(GetMachineResponse::new);
-        return ResponseEntity.ok(page);
-    }
-
-    public ResponseEntity<Page<GetMachineResponse>> getAllMaintenance(Pageable pagination) {
-        Page<GetMachineResponse> page = machineRepository.findByStatus(pagination, Status.MANUTENCAO).map(GetMachineResponse::new);
-        return ResponseEntity.ok(page);
     }
 }
