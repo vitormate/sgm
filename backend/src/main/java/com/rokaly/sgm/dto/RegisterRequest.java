@@ -4,7 +4,7 @@ import com.rokaly.sgm.utils.enums.RoleUser;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record RegisterDTO(
+public record RegisterRequest(
         @NotBlank
         String login,
         @NotBlank

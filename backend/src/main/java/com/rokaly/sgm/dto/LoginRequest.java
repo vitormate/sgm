@@ -2,7 +2,7 @@ package com.rokaly.sgm.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record LoginDTO(
+public record LoginRequest (
         @NotBlank
         String login,
         @NotBlank

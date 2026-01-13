@@ -1,7 +1,8 @@
 package com.rokaly.sgm.model;
 
-import com.rokaly.sgm.dto.MaintenanceDTO;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -11,11 +12,22 @@ public class Maintenance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @Column(nullable = false)
     private LocalDateTime dateTime;
-    @Column(length = 500)
+
+    @NotBlank
+    @Column(length = 500, nullable = false)
     private String description;
+
+    @NotNull
+    @Column(nullable = false)
     private Double hourMeter;
+
+    @NotNull
     @ManyToOne
+    @JoinColumn(name = "machine_id", nullable = false)
     private Machine machine;
 
     public Maintenance(LocalDateTime dateTime, String description, Double hourMeter, Machine machine) {

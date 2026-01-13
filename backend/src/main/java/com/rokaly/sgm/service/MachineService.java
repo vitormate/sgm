@@ -1,47 +1,52 @@
 package com.rokaly.sgm.service;
 
-import com.rokaly.sgm.dto.GetMachineDTO;
-import com.rokaly.sgm.dto.MachineDTO;
-import com.rokaly.sgm.dto.PutMachineDTO;
+import com.rokaly.sgm.dto.GetMachineResponse;
+import com.rokaly.sgm.dto.MachineRequest;
+import com.rokaly.sgm.dto.PutMachineRequest;
 import com.rokaly.sgm.model.Machine;
 import com.rokaly.sgm.repository.MachineRepository;
 import com.rokaly.sgm.utils.enums.Status;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Optional;
-
 @Service
 public class MachineService {
 
-    @Autowired
-    private MachineRepository machineRepository;
+    private final MachineRepository machineRepository;
 
-    public ResponseEntity<MachineDTO> createService(MachineDTO data, UriComponentsBuilder uriBuilder) {
+    public MachineService(MachineRepository machineRepository) {
+        this.machineRepository = machineRepository;
+    }
+
+    public ResponseEntity<MachineRequest> createService(MachineRequest data, UriComponentsBuilder uriBuilder) {
         Machine machine = new Machine(data.serial(), data.type(), data.brand(), data.model(), data.hourMeter());
         machineRepository.save(machine);
 
         var uri = uriBuilder.path("/machines/{id}").buildAndExpand(machine.getId()).toUri();
-        MachineDTO dto = new MachineDTO(data);
+        MachineRequest dto = new MachineRequest(data);
         return ResponseEntity.created(uri).body(dto);
     }
 
-    public ResponseEntity<Page<GetMachineDTO>> getAllService(Pageable pagination) {
-        Page<GetMachineDTO> page = machineRepository.findAll(pagination).map(GetMachineDTO::new);
+    public ResponseEntity<Page<GetMachineResponse>> getAllService(Pageable pagination, Status status) {
+        if (status == null) {
+            Page<GetMachineResponse> page = machineRepository.findAll(pagination).map(GetMachineResponse::new);
+            return ResponseEntity.ok(page);
+        }
+
+        Page<GetMachineResponse> page = machineRepository.findByStatus(pagination, status).map(GetMachineResponse::new);
         return ResponseEntity.ok(page);
     }
 
-    public ResponseEntity<GetMachineDTO> putService(PutMachineDTO data) {
+    public ResponseEntity<GetMachineResponse> putService(PutMachineRequest data) {
         Machine machine = machineRepository.findById(data.id())
                 .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + data.id()));
 
         machine.updateData(data.type(), data.brand(), data.model(), data.hourMeter());
-        return ResponseEntity.ok(new GetMachineDTO(machine));
+        return ResponseEntity.ok(new GetMachineResponse(machine));
     }
 
     public ResponseEntity<Void> deleteService(Long id) {
@@ -50,20 +55,10 @@ public class MachineService {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<GetMachineDTO> getByIdService(Long id) {
+    public ResponseEntity<GetMachineResponse> getByIdService(Long id) {
         Machine machine = machineRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + id));
 
-        return ResponseEntity.ok(new GetMachineDTO(machine));
-    }
-
-    public ResponseEntity<Page<GetMachineDTO>> getAllActives(Pageable pagination) {
-        Page<GetMachineDTO> page = machineRepository.findByStatus(pagination, Status.ATIVA).map(GetMachineDTO::new);
-        return ResponseEntity.ok(page);
-    }
-
-    public ResponseEntity<Page<GetMachineDTO>> getAllMaintenance(Pageable pagination) {
-        Page<GetMachineDTO> page = machineRepository.findByStatus(pagination, Status.MANUTENCAO).map(GetMachineDTO::new);
-        return ResponseEntity.ok(page);
+        return ResponseEntity.ok(new GetMachineResponse(machine));
     }
 }

@@ -2,6 +2,8 @@ package com.rokaly.sgm.model;
 
 import com.rokaly.sgm.utils.enums.RoleUser;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,11 +14,20 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+
+    @NotBlank
+    @Column(unique = true, length = 50, nullable = false)
     private String login;
+
+    @NotBlank
+    @Column(length = 100, nullable = false)
     private String password;
+
+    @NotNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleUser role;
 

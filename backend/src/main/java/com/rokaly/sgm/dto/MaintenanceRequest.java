@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public record MaintenanceDTO(
+public record MaintenanceRequest(
         @NotNull
         LocalDateTime dateTime,
         @NotBlank
@@ -15,7 +15,7 @@ public record MaintenanceDTO(
         @NotNull
         Long idMachine
 ) {
-    public MaintenanceDTO(MaintenanceDTO data) {
+    public MaintenanceRequest(MaintenanceRequest data) {
         this(data.dateTime, data.description(), data.hourMeter(), data.idMachine());
     }
 }

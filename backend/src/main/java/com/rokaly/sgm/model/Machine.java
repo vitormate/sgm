@@ -1,10 +1,10 @@
 package com.rokaly.sgm.model;
 
-import com.rokaly.sgm.dto.MachineDTO;
-import com.rokaly.sgm.dto.PutMachineDTO;
 import com.rokaly.sgm.exception.BusinessRuleException;
 import com.rokaly.sgm.utils.enums.Status;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,17 +12,36 @@ import java.util.List;
 @Entity
 @Table(name = "machines")
 public class Machine {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+
+    @NotBlank
+    @Column(unique = true, length = 50, nullable = false)
     private String serial;
+
+    @NotBlank
+    @Column(length = 100, nullable = false)
     private String type;
+
+    @NotBlank
+    @Column(length = 50, nullable = false)
     private String brand;
+
+    @NotBlank
+    @Column(length = 50, nullable = false)
     private String model;
+
+    @NotNull
+    @Column(nullable = false)
     private Double hourMeter;
+
+    @NotNull
+    @Column(length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
+
     @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Maintenance> maintenance;
 
