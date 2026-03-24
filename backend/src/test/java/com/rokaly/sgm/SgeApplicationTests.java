@@ -1,4 +1,4 @@
-package com.rokaly.sge;
+package com.rokaly.sgm;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
