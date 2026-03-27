@@ -27,7 +27,9 @@ public class MaintenanceService {
     }
 
     public ResponseEntity<MaintenanceRequest> createService(MaintenanceRequest data, UriComponentsBuilder uriBuilder) {
-        Machine machine = repositoryMachine.getReferenceById(data.idMachine());
+        Machine machine = repositoryMachine.findById(data.idMachine()).orElseThrow(
+                () -> new EntityNotFoundException("Machine not found with id: " + data.idMachine())
+        );
         machine.startMaintenance(data.hourMeter(), data.dateTime());
         Maintenance maintenance = new Maintenance(data.dateTime(), data.description(), data.hourMeter(), machine);
 
@@ -44,7 +46,9 @@ public class MaintenanceService {
     }
 
     public ResponseEntity<GetMachineResponse> finishMaintenance(UpdateMachineStatusResquest data) {
-        Machine machine = repositoryMachine.getReferenceById(data.id());
+        Machine machine = repositoryMachine.findById(data.id()).orElseThrow(
+                () -> new EntityNotFoundException("Machine not found with id: " + data.id())
+        );
         machine.activate();
         return ResponseEntity.ok(new GetMachineResponse(machine));
     }

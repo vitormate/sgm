@@ -149,7 +149,7 @@ public class Machine {
 
     private void validHourMeter(Double hourMeter) {
         if (hourMeter < this.hourMeter) {
-            throw new BusinessRuleException("O horímetro não pode ser menor que o valor anterior!");
+            throw new BusinessRuleException("Hour meter can't be lower than current value!");
         }
 
         this.hourMeter = hourMeter;
@@ -157,19 +157,19 @@ public class Machine {
 
     private void validDateTime(LocalDateTime dateTime) {
         if (dateTime.isAfter(LocalDateTime.now())) {
-            throw new BusinessRuleException("O horário não pode ser futuro!");
+            throw new BusinessRuleException("Datetime can't be in the future!");
         }
     }
 
     private void validNotInMaintenance() {
         if (this.status == Status.MANUTENCAO) {
-            throw new BusinessRuleException("A máquina já está em MANUTENÇÃO!");
+            throw new BusinessRuleException("Machine already in maintenance!");
         }
     }
 
     private void validNotInActive() {
         if (this.status == Status.ATIVA) {
-            throw new BusinessRuleException("A máquina já está ATIVA!");
+            throw new BusinessRuleException("Machine already ACTIVE!");
         }
     }
 }
