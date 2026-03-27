@@ -43,21 +43,23 @@ public class MachineService {
 
     public ResponseEntity<GetMachineResponse> putService(PutMachineRequest data) {
         Machine machine = machineRepository.findById(data.id())
-                .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + data.id()));
+                .orElseThrow(() -> new EntityNotFoundException("Machine not found with id: " + data.id()));
 
         machine.updateData(data.type(), data.brand(), data.model(), data.hourMeter());
         return ResponseEntity.ok(new GetMachineResponse(machine));
     }
 
     public ResponseEntity<Void> deleteService(Long id) {
-        Machine machine = machineRepository.getReferenceById(id);
+        Machine machine = machineRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Machine not found with id: " + id));
+
         machine.inactivate();
         return ResponseEntity.noContent().build();
     }
 
     public ResponseEntity<GetMachineResponse> getByIdService(Long id) {
         Machine machine = machineRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Máquina não encontrada com id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Machine not found with id: " + id));
 
         return ResponseEntity.ok(new GetMachineResponse(machine));
     }

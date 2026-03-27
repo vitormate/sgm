@@ -53,6 +53,9 @@ Para as regras de negócio utilizei o conceito de enriquecimento de entidades do
 - FlyWay
 ### Banco de Dados
 - PostgreSQL
+### Testes Unitários
+- JUnit5
+- Mockito
 
 ## 🔐 Segurança
 A API utiliza autenticação stateless com JWT:
