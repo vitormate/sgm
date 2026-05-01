@@ -9,6 +9,31 @@ O Sistema de Gerenciamento de Máquinas (SGM) é uma API REST desenvolvida com J
 - Registrar e consultar o histórico de manutenções
 - Garantir integridade das informações de horímetro
 
+## Como executar
+
+### Pré-requisitos
+
+- Docker instalado
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/vitormate/sgm.git
+cd sgm
+```
+
+### 2. Suba os containers
+
+```bash
+docker-compose up
+```
+
+O Docker baixa automaticamente a imagem da API e o banco de dados PostgreSQL — nenhuma configuração adicional necessária.
+
+## Documentação (Swagger)
+
+Acesse: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+
 ## ⚓ Arquitetura
 O projeto segue uma arquitetura em camadas, com separação clara de responsabilidades:
 
@@ -51,6 +76,7 @@ Para as regras de negócio utilizei o conceito de enriquecimento de entidades do
 - Spring Validation
 - Swagger / OpenAPI
 - FlyWay
+- Docker
 ### Banco de Dados
 - PostgreSQL
 ### Testes Unitários
