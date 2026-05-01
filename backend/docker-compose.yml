@@ -1,0 +1,38 @@
+# Contém os containers que serão usado
+services:
+  backend:
+    # Usa o Dockerfile da aplicação
+    build: ./
+    container_name: backend
+    depends_on:
+      - db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  db:
+    # Usa imagem do docker hub
+    image: postgres:15
+    container_name: db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - app-network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+# Cria uma conexão entre os containers
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
